@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' blob:; connect-src 'self' ws://localhost:4317; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="description" content="Keyflow — an offline-first ten-finger typing tutor with adaptive lessons, analytics and typing tests." />
+    <title>Keyflow — Typing Studio</title>
+    <style>
+      :root { color-scheme: dark; }
+      html[data-theme='light'] { color-scheme: light; }
+      html, body, #root { height: 100%; margin: 0; }
+      body {
+        background: #0a0c11;
+        color: #e7e9ef;
+        font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      html[data-theme='light'] body { background: #f4f5f9; color: #171a22; }
+      #boot {
+        position: fixed; inset: 0; display: grid; place-items: center;
+        font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.55;
+      }
+    </style>
+    <script>
+      // Apply the saved theme before first paint to avoid a flash.
+      (function () {
+        try {
+          var raw = localStorage.getItem('keyflow.profile.v1');
+          var mode = raw ? JSON.parse(raw).settings.theme : 'system';
+          var dark = mode === 'dark' || (mode !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"><div id="boot">Loading Keyflow</div></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

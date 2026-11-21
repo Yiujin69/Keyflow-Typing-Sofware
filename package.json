@@ -1,0 +1,71 @@
+{
+  "name": "keyflow",
+  "productName": "Keyflow",
+  "version": "1.0.0",
+  "description": "Offline-first ten-finger typing tutor with adaptive lessons, analytics and typing tests.",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "author": "Keyflow",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false",
+    "preview": "vite preview --port 4317 --strictPort",
+    "desktop": "npm run build && electron .",
+    "desktop:dev": "electron . --dev",
+    "package": "npm run build && electron-builder --win --x64",
+    "package:dir": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11"
+  },
+  "build": {
+    "appId": "app.keyflow.typing",
+    "productName": "Keyflow",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Keyflow"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Education"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.education"
+    }
+  }
+}
